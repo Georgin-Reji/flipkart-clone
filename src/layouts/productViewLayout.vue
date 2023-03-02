@@ -1,8 +1,9 @@
 <template>
   	<div>
 		<div class="app" id="app">
-		<navbar @search-filter="searchList" />
+		<navbar/>
 		</div>
+		<slot/>
 	</div>
 </template>
 

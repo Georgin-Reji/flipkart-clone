@@ -11,12 +11,13 @@
       </div>
     </div>
     <div class="searchbox">
-      <input v-model="search" @keyup="searchFilter" placeholder="Search items here" type="text">
+      <input v-model="search" @keyup="searchList" placeholder="Search items here" type="text">
       <i class="fa-solid fa-magnifying-glass"></i>
     </div>
     <div class="cart">
-      <span>Cart</span>
-      <i class="fa-2xl fa-solid fa-cart-shopping"></i>
+      <span >Cart</span>
+      <button @click="showCart"><i class="fa-2xl fa-solid fa-cart-shopping"></i>
+</button>
     </div>
 
 
@@ -24,6 +25,7 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
 export default {
   data() {
     return {
@@ -31,12 +33,15 @@ export default {
     }
   },
   computed: {
-
   },
   methods: {
-    searchFilter() {
-      this.$emit('search-filter', this.search)
-    }
+    ...mapMutations(['toggleAddToCart']),
+    showCart() {
+      this.toggleAddToCart();
+    },
+    searchList(){
+      this.$store.state.searchWord = this.search;
+		}
   }
 }
 </script>
@@ -62,9 +67,11 @@ export default {
   width: 30%;
   height: 30px;
   background-color: white;
+  border-radius: 2px 0 0 0;
 }
 
 .searchbox input {
+  outline: none;
   border: none;
 }
 
@@ -113,5 +120,14 @@ export default {
   color: white;
   font-size: 1rem;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+.cart button {
+  background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+    height: 30px;
 }
 </style>
