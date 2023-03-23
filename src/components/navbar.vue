@@ -15,17 +15,16 @@
       <i class="fa-solid fa-magnifying-glass"></i>
     </div>
     <div class="cart">
-      <span >Cart</span>
+      <span>Cart</span>
       <button @click="showCart"><i class="fa-2xl fa-solid fa-cart-shopping"></i>
-</button>
+      </button>
     </div>
-
-
   </div>
 </template>
 
 <script>
 import { mapMutations } from 'vuex';
+
 export default {
   data() {
     return {
@@ -39,9 +38,9 @@ export default {
     showCart() {
       this.toggleAddToCart();
     },
-    searchList(){
+    searchList() {
       this.$store.state.searchWord = this.search;
-		}
+    }
   }
 }
 </script>
@@ -108,8 +107,8 @@ export default {
 }
 
 .cart {
+  margin-left: auto;
   margin-top: 1rem;
-  margin-left: 42rem;
 }
 
 .cart i {
@@ -121,13 +120,14 @@ export default {
   font-size: 1rem;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
+
 .cart button {
   background-color: Transparent;
-    background-repeat:no-repeat;
-    border: none;
-    cursor:pointer;
-    overflow: hidden;
-    outline:none;
-    height: 30px;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+  height: 30px;
 }
 </style>

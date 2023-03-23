@@ -3,30 +3,41 @@
 		<div class="heading">
 			<h1>Shopping Cart</h1>
 		</div>
-		<div class="table">
+
+		<div v-if="items.length == 0">
+			<h2>Cart is empty</h2>
+		</div>
+
+		<div v-else>
+			<div class="table">
 			<div class="table-header">
 				 <div class="table-items"><h3>Product Details</h3></div>
 				 <div class="table-items"><h3>Price</h3></div>
 				 <div class="table-items"><h3>Quantity</h3></div>
 				 <div class="table-items"><h3>Total</h3></div>
+				 <div class="table-items"></div>
 			</div>
-			<div class="items">
+
+			<div v-for="item in items" :key="item.mid" class="items">
 				<div class="item details">
-					<img src="https://rukminim1.flixcart.com/image/312/312/kg6vfrk0/mobile/h/v/j/mi-10t-pro-mzb07zein-original-imafwhb86qsrbgsj.jpeg?q=70" alt="">
-				<h4>Redmi Note 10</h4>
+					<img :src="item.image" alt="">
+				<h4>{{item.mname}}</h4>
 				</div>
 				<div class="item price">
-					<h4>₹29,499</h4>
+					<h4>{{ item.price }}</h4>
 				</div>
 				<div class="item quantity">
-					<button><i class="fa-solid fa-plus"></i></button>
+					<button @click="decrement(item)"><i class="fa-solid fa-minus"></i></button>
 					<div class="quantity">
-						<h4>1</h4>
+						<h4>{{ item.quantity }}</h4>
 					</div>
-					<button><i class="fa-solid fa-minus"></i></button>
+					<button @click="increment(item)"><i class="fa-solid fa-plus"></i></button>
 				</div>
 				<div class="item total">
-					<h4>₹29,499</h4>
+					<h4>₹{{ item.total }}</h4>
+				</div>
+				<div class="item total">
+					<h4><button @click="removeProduct(item)">Remove</button></h4>
 				</div>
 			</div>
 		</div>
@@ -35,25 +46,43 @@
 			<div class="cart cart-value">
 				<p>Tax: ₹100 </p>
 				<p>Delivery: ₹150 </p>
-				<h4>Total Amount ₹29,749</h4>
+				<h4>Total Amount ₹{{ getTotal }}</h4>
 			</div>
 			<div class="cart cart-checkout">
 				<button @click="closeModel" class="btn1">Cancel</button>
 				<button class="btn2">Checkout</button>
 			</div>
 		</div>
+		</div>
+
 
 	</div>
 </template>
 
 <script>
 import { mapMutations } from 'vuex';
+import { mapGetters } from 'vuex';
 export default {
+	computed: {
+		...mapGetters(["getTotal"]),
+		items() {
+			return this.$store.getters.getCartItem
+		}
+	},
 	methods: {
-		...mapMutations(["toggleAddToCart"]),
+		...mapMutations(["toggleAddToCart","quantityIncrement","quantityDecrement","removeItem"]),
 
 		closeModel() {
 			this.toggleAddToCart();
+		},
+		increment(item) {
+			this.quantityIncrement(item.id);
+		},
+		decrement(item) {
+			this.quantityDecrement(item.id)
+		},
+		removeProduct(item) {
+			this.removeItem(item.id)
 		}
 	}
 }
